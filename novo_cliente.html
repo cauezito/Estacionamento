@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SafeCar</title>
+    <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css"/>
+</head>
+<div>
+    <div class="container">
+        <div class="">
+            <h2 class="display-3">SAFEcar</h2>
+            <img src="img/painel.png" alt="">
+            <!--MENU: Cadastro de clientes-->
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="h5">Dados do cliente</h5>
+            </div>
+            <div class="card-body">
+            <form> 
+                <div class="form-row">
+                  <div class="form-group col-md-4 mr-5 ml-5">
+                    <label>Nome: </label>
+                    <input type="text" class="form-control" id="nome_cliente">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Sobrenome: </label>
+                    <input type="text" class="form-control" id="sobrenome_cliente">
+                  </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-7 ml-5">
+                        <label for="inputAddress">Logradouro</label>
+                        <input type="text" class="form-control" id="logradouro_cliente" 
+                        placeholder="Rua, avenida, beco">
+                    </div>
+                        <div class="form-group col-md-1 ml-1">
+                        <label>Número:</label>
+                        <input type="number" class="form-control" id="numero_logradouro">
+                        </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-3 ml-5">
+                    <label>Cidade: </label>
+                    <input type="text" class="form-control" id="cidade_cliente">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>Estado: </label>
+                    <select id="estado_cliente" class="form-control">
+                      <option selected>Escolha</option>
+                      <option>São Paulo</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>CEP</label>
+                    <input type="text" class="form-control" id="cep_cliente">
+                  </div>
+                </div>
+            </div>
+                <div class="card-header">
+                    <h5 class="h5">Dados do veículo</h5>
+                </div>
+                <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-3  ml-5">
+                        <label for="inputAddress">Modelo:</label>
+                        <input type="text" class="form-control" id="modelo_veiculo">
+                    </div>
+                        <div class="form-group col-md-3">
+                            <label>Placa:</label>
+                            <input type="text" class="form-control" id="placa_veiculo">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Fabricante:</label>
+                            <input type="text" class="form-control" id="fabricante_veiculo">
+                        </div>
+                </div>
+            </div>
+               <div class="card-footer align-content-centerx">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <button type="submit" class="btn btn-danger">Limpar</button>
+               </div>                
+              </form>
+            </div>
+            </div>
+        </div>
+    
+    </div>
+    <script src="bs4/js/jquery.js"></script>
+    <script src="bs4/js/bootstrap.min.js"></script>
+    <script src="bs4/js/main.js"></script>
+</body>
+</html>
