@@ -1,5 +1,16 @@
-document.getElementById('formulario').addEventListener('submit', cadastraVeiculo);
+//document.getElementById('formulario').addEventListener('submit', cadastraVeiculo);
 window.addEventListener('load', exibePatio)
+document.querySelector('a.valores').addEventListener('click' , function(){
+    var url ='file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/valores.html';
+    exibeConteudo(url)
+});
+document.querySelector('a.clientes').addEventListener('click' , function(){
+    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/clientes.html'
+    exibeConteudo(url);
+});
+
+document.querySelector('a.fechar').addEventListener('click', ocultaConteudo);
+
 /*window.getElementById('formulario'.addEventListener('submit', function(){
     var modelo = document.getElementById('modeloCarro').value;
     var placa = document.getElementById('placaCarro').value;
@@ -9,6 +20,21 @@ window.addEventListener('load', exibePatio)
     }
 }));*/
 //document.getElementById('enviar').addEventListener('click', window.location.reload());
+function exibeConteudo(url){
+    var iframe = document.createElement("IFRAME");
+    iframe.setAttribute("src", url );
+    iframe.style.width = 650+"px";
+    iframe.style.height = 250+"px";
+    iframe.style.backgroundColor = "#E5F2C9";
+    var div = document.querySelector('div.obs'); 
+    div.appendChild(iframe);
+   // div.style="position:absolute; left: 280px; top: -250px";
+}
+
+function ocultaConteudo(){
+    var iframe = document.getElementsByTagName('iframe')[0];
+    iframe.style.display = 'none';
+}
 function cadastraVeiculo(modelo, placa){
     var modelo = document.getElementById('modeloCarro').value;
     var placa = document.getElementById('placaCarro').value;

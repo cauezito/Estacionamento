@@ -1,49 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>SafeCar</title>
-    <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css"/>
-</head>
-<body>
-    <div class="container">
-        <div class="header clearfix">
-            <h2 class="display-3">SAFEcar</h2>
-            <img src="img/painel.png" alt="">
-            <div class="jumbotron">
-                <form id="formulario" action="">
-                    <div class="form-group">
-                        <label>Modelo do veículo: </label>
-                        <input type="text" id="modeloCarro" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Placa do veículo: </label>
-                        <input type="text" id="placaCarro" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn-primary" id="enviar">Adicionar</button>
-                </form>                
-            </div>
+    <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="bs4/css/style-index.css" />
+    <link href="fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-9 col-lg-3">
+          <h2 class="display-5">SAFEcar</h2>
         </div>
-        <div class="row marketing">
-            <div class="col-lg-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Modelo</th>
-                            <th>Placa</th>
-                            <th>Entrada</th>
-                            <th>Finalizar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultados"></tbody>
-                </table>
-            </div>
+        <div class="col-sm-3 login col-lg-3">
+            <small>Logado como: Cauê Santos</small>
         </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-lg-3">
+          <div class="card">
+            <div class="card-header">
+              Pátio
+            </div>
+            <div class="card-body">
+              Total de vagas: 25<br />
+              Ocupadas: 0 <br />
+              Restantes: 25 <br />
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-7 teste">
+          <div class="card">
+            <div class="card-header">
+              Administração 
+             <a href="#" class="fechar"><img src="img/close.png" alt="fechar"></a> 
+            </div>
+            <div class="card-body obs"></div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-lg-2">
+          <div class="card mb-1">
+            <div class="card-header">
+              Opções
+            </div>
+            <div class="card-body">
+              <a href="#">Entrada</a>
+              <hr />
+              <a href="#">Saída</a>
+              <hr />
+              <a href="#" class="clientes">Clientes</a>
+              <hr />
+              <a href="#">Histórico</a>
+              <hr />
+              <a href="#" class="valores">Valores</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mx-auto">
+        <div class="col-sm-12 col-lg-8 mx-auto mt-4">
+          <h5>Veículos no pátio</h5>
+          <hr class="sub" />
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Modelo</th>
+                <th>Placa</th>
+                <th>Entrada</th>
+              </tr>
+            </thead>
+            <tbody id="resultados"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <script src="bs4/js/jquery.js"></script>
     <script src="bs4/js/bootstrap.min.js"></script>
     <script src="bs4/js/script-index.js"></script>
-</body>
+  </body>
 </html>
