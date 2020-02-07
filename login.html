@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SafeCar</title>
+    <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="bs4/css/style-login.css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header clearfix">
+            <h2 class="display-3">SAFEcar</h2>
+        </div>
+        <h4>Efetuar login</h4>
+        <hr>
+        <div class="row">
+            <div class="col-3 mx-auto mt-5 ">
+        <div class="caixa-login">
+            <form name="formulario">
+            <div class="form-group">
+              <label>Usuário: </label>
+              <input type="text" class="form-control" id="uEmail" aria-describedby="emailHelp" name="nome" required>
+            </div>
+            <div class="form-group">
+              <label>Senha: </label>
+              <input type="password" class="form-control" id="uSenha" required name="senha">
+            </div>
+            <button type="submit" class="btn" onclick="return valida()">Enviar</button>
+          </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    <script src="bs4/js/jquery.js"></script>
+    <script src="bs4/js/bootstrap.min.js"></script>
+    <script src="bs4/js/script-login.js"></script>
+</body>
+</html>

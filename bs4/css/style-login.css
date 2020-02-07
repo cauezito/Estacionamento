@@ -1,0 +1,19 @@
+*{
+    background-color: #dccfec;
+}
+h4{
+    text-align: center;
+}
+
+hr{
+    width: 160px;
+    border: #4f517d 2px solid;
+    border-radius: 8%;
+}
+.btn{
+    background-color: #4f517d;
+    color: white;
+}
+form{
+    text-align: center;
+}
