@@ -2,12 +2,26 @@
 window.addEventListener('load', exibePatio)
 document.querySelector('a.valores').addEventListener('click' , function(){
     var url ='file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/valores.html';
-    exibeConteudo(url)
+    var height = 250;
+    exibeConteudo(url, height)
 });
 document.querySelector('a.clientes').addEventListener('click' , function(){
     var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/clientes.html'
-    exibeConteudo(url);
+    var height = 300;
+    exibeConteudo(url, height);
 });
+
+document.querySelector('a.entrada').addEventListener('click', function(){
+    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/entrada.html'
+    var height = 480;
+    exibeConteudo(url, height);
+})
+
+document.querySelector('a.historico').addEventListener('click', function(){
+    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/historico.html'
+    var height = 300;
+    exibeConteudo(url, height)
+})
 
 document.querySelector('a.fechar').addEventListener('click', ocultaConteudo);
 
@@ -20,11 +34,11 @@ document.querySelector('a.fechar').addEventListener('click', ocultaConteudo);
     }
 }));*/
 //document.getElementById('enviar').addEventListener('click', window.location.reload());
-function exibeConteudo(url){
+function exibeConteudo(url, height){
     var iframe = document.createElement("IFRAME");
     iframe.setAttribute("src", url );
     iframe.style.width = 650+"px";
-    iframe.style.height = 250+"px";
+    iframe.style.height = height+"px";
     iframe.style.backgroundColor = "#E5F2C9";
     var div = document.querySelector('div.obs'); 
     div.appendChild(iframe);

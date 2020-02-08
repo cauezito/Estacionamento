@@ -1,39 +1,24 @@
 *{
-    background-color: #dccfec;
+    background-color: rgb(205, 208, 228);
 }
 .col-lg-8{
     text-align: center;
 }
 .sub{
     width: 120px;
-    border: #4f517d 2px solid;
+    border: rgb(44, 63, 87) 2px solid;
     border-radius: 8%;
 }
 .card-header{
-    background-color: #4f517d;
+    background-color: #2F4858;
     color: white;
 }
 .card-body{
     background-color: #E5F2C9;
-    font-weight: bold;
 }
-
-.total, .ocupadas, .restantes{
+.patio{
     background-color: #E5F2C9;
     font-weight: bold;
-}
-.ocupadas{
-    margin-top: -28px;
-    margin-left: 180px;
-}
-
-.restantes{
-    margin-top: -28px;
-    margin-left: 330px;
-}
-.marketing{
-    margin-top: -100px;
-
 }
 .login{
   margin-top: 60px;
