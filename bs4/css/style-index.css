@@ -28,3 +28,20 @@
 .fechar{
     float:right;
 }
+a{
+    cursor: pointer;
+    color: #2F4858;
+    font-weight: bold;
+}
+a:hover{
+    text-decoration: overline;
+}
+.btn{
+    color: white;
+    background-color: rgb(82, 107, 122);
+}
+input{
+    background-color: white;
+    
+}
+

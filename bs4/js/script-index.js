@@ -1,29 +1,31 @@
 //document.getElementById('formulario').addEventListener('submit', cadastraVeiculo);
 window.addEventListener('load', exibePatio)
 document.querySelector('a.valores').addEventListener('click' , function(){
-    var url ='file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/valores.html';
+    var url ='valores.html';
     var height = 250;
     exibeConteudo(url, height)
 });
 document.querySelector('a.clientes').addEventListener('click' , function(){
-    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/clientes.html'
+    var url = 'clientes.html'
     var height = 300;
     exibeConteudo(url, height);
 });
 
 document.querySelector('a.entrada').addEventListener('click', function(){
-    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/entrada.html'
+    var url = 'entrada.html'
     var height = 480;
     exibeConteudo(url, height);
-})
+});
 
 document.querySelector('a.historico').addEventListener('click', function(){
-    var url = 'file:///C:/Users/Cau%C3%AA/Desktop/Estudo/JavaScript/Estacionamento/historico.html'
+    var url = 'historico.html'
     var height = 300;
     exibeConteudo(url, height)
-})
+});
 
+document.querySelector('button.fechar').addEventListener('click', ocultaConteudo);
 document.querySelector('a.fechar').addEventListener('click', ocultaConteudo);
+//document.querySelector('button#cadastrar').addEventListener('click', cadastraCliente);
 
 /*window.getElementById('formulario'.addEventListener('submit', function(){
     var modelo = document.getElementById('modeloCarro').value;
@@ -49,72 +51,135 @@ function ocultaConteudo(){
     var iframe = document.getElementsByTagName('iframe')[0];
     iframe.style.display = 'none';
 }
-function cadastraVeiculo(modelo, placa){
-    var modelo = document.getElementById('modeloCarro').value;
-    var placa = document.getElementById('placaCarro').value;
-    var horario = new Date();
 
-    if(modelo.length < 3 || placa.length <6){
-        alert("Por favor, corrija os campos!");
-        return false;
-    }    
+function cadastraCliente(){
+    alert('entrou');
+    //cliente
+    var nome = document.getElementById('nome_cliente').value;
+    var sobrenome = document.getElementById('sobrenome_cliente').value;
+    var cpf = document.getElementById('cpf_cliente').value;
+    var logradouro = document.getElementById('logradouro_cliente').value;
+    var num_logradouro = document.getElementById('numero_logradouro').value;
+    var cidade = document.getElementById('cidade_cliente').value;
+    var estado = document.getElementById('estado_cliente').value;
+    var inadimplente = 'não';
+ 
+    //veículo
+    var modelo = document.getElementById('modelo_veiculo').value;
+    var placa = document.getElementById('placa_veiculo').value;
+    var fabricante = document.getElementById('fabricante_veiculo').value;
 
+    //validação do formulário
 
-    carro = {
+    //criação do objeto cliente
+    cliente = {
+        nome : nome,
+        sobrenome : sobrenome,
+        cpf : cpf,
+        logradouro : logradouro,
+        num_logradouro : num_logradouro,
+        cidade : cidade,
+        estado : estado,
         modelo : modelo,
         placa : placa,
-        horaContratacao : horario.getHours(),
-        minutoContratacao : horario.getMinutes()
+        fabricante : fabricante,
+        inadimplente : inadimplente
     }
 
     //Armazenar informações no navegador
-
     if(localStorage.getItem('patio') === null){
-        var carros = [];
-        carros.push(carro);
+        var clientes = [];
+        clientes.push(cliente);
         //transforma em string para poder adicionar como valor no LS.
-        localStorage.setItem('patio' , JSON.stringify(carros));
+        localStorage.setItem('patio' , JSON.stringify(clientes));
     } else {
         //retorna as informações em formato de objeto.
-        var carros = JSON.parse(localStorage.getItem('patio'));
-        carros.push(carro);
-        localStorage.setItem('patio', JSON.stringify(carros));
+        var clientes = JSON.parse(localStorage.getItem('patio'));
+        clientes.push(cliente);
+        localStorage.setItem('patio', JSON.stringify(clientes));
     }
-
-    //exibePatio();
+    exibeClientes();   
 
 }
 
-function apagarVeiculo(placa){
-    var carros = JSON.parse(localStorage.getItem('patio'));
-    for(var i = 0; i < carros.length; i++){
-        if(carros[i].placa == placa){
-            carros.splice(i, 1);         
-        }
+function novaEntrada(){
+    var selectCliente = document.getElementById('usu');
+    var cliente = selectCliente.options[selectCliente.selectedIndex].value;
+    var selectVeiculo = document.getElementById('vei');
+    var veiculo = selectVeiculo.options[selectVeiculo.selectedIndex].value;
+    var horario = new Date();
 
-        localStorage.setItem('patio', JSON.stringify(carros));
+    entrada = {
+    cliente : cliente,
+    veiculo : veiculo,
+    horaContratacao : horario.getHours(),
+    minutoContratacao : horario.getMinutes()
     }
 
-    exibePatio();
+}
+
+function apagarCliente(cpf){
+    var clientes = JSON.parse(localStorage.getItem('patio'));
+    for(var i = 0; i < clientes.length; i++){
+        if(clientes[i].cpf == cpf){
+            clientes.splice(i, 1);         
+        }
+
+        localStorage.setItem('patio', JSON.stringify(clientes));
+    }
+
+    exibeClientes();
 }
 
 function exibePatio(){
-    var carros = JSON.parse(localStorage.getItem('patio'));
-    var carrosResultado = document.getElementById('resultados');
-    carrosResultado.innerHTML = '';
+    var clientes = JSON.parse(localStorage.getItem('patio'));
+    var tabelaPatio = document.getElementById('resultados');
+    tabelaPatio.innerHTML = '';
 
-    for(var i = 0; i < carros.length; i++){
-        var modelo = carros[i].modelo;
-        var placa = carros[i].placa;
-        var hora = carros[i].horaContratacao;
-        var minutos = carros[i].minutoContratacao;
+    for(var i = 0; i < clientes.length; i++){
+        var nome = clientes[i].nome;
+        var sobrenome = clientes[i].sobrenome;
+        var cpf = clientes[i].cpf;
+        var modelo = clientes[i].modelo;
+        var placa = clientes[i].placa;
+        var hora = clientes[i].horaContratacao;
+        var minutos = clientes[i].minutoContratacao;
 
-        carrosResultado.innerHTML +=
-        '<tr><td>' + modelo + 
-        '</td><td>' + placa + 
+        tabelaPatio.innerHTML +=
+        '<tr><td>' + nome + sobrenome +  '</td><td>' + cpf + 
+        '</td><td>' + modelo + '</td><td>' + placa
         '</td><td>' + hora + ':' + minutos +
         '</td><td><button class="btn btn-danger" onclick="apagarVeiculo(\''+placa+'\')">Excluir</button>' +
         '</td></tr>';
     }
+}
+
+function exibeClientes(){
+    var clientes = JSON.parse(localStorage.getItem('patio'));
+    var tabelaClientes = document.getElementById('tabelaClientes');
+    tabelaClientes.innerHTML = '';
+
+    for(var i = 0; i < clientes.length; i++){
+        var nome = clientes[i].nome;
+        var sobrenome = clientes[i].sobrenome;
+        var cpf = clientes[i].cpf;
+        var logradouro = clientes[i].logradouro;
+        var num = clientes[i].num_logradouro;
+        var cidade = clientes[i].cidade;
+        var estado = clientes[i].estado;
+        var modelo = clientes[i].modelo;
+        var placa = clientes[i].placa;
+        var fabricante = clientes[i].fabricante;
+        var isInadimplente = clientes[i].inadimplente;
+
+        tabelaClientes.innerHTML +=
+        '<tr><td>' + nome + '</td><td>' + sobrenome +  '</td><td>' + cpf + 
+        '</td><td>' + logradouro + '</td><td>' + num + '</td><td>'  + cidade +
+        '</td><td>' + estado + '</td><td>' + modelo + '</td><td>' + placa + '</td><td>'
+        + fabricante + '</td><td>' + isInadimplente +
+        '</td><td><button class="btn btn-danger" onclick="apagarCliente(\''+cpf+'\')">Excluir</button>' +
+        '</td></tr>'
+    }
+
 }
 
