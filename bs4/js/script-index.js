@@ -3,7 +3,6 @@ window.addEventListener("load", listaInfoEntrada);
 
 //variável que permite um iframe por vez
 var qtd = document.getElementsByTagName("iframe").length;
-
 document.querySelector("a.valores").addEventListener("click", function() {
   var url = "valores.html";
   var height = 250;
@@ -57,8 +56,16 @@ function exibeConteudo(url, height) {
     div.appendChild(iframe);
     exibeBotaoFechar();
     qtd = 1;
-  } 
+  } else {
+    exibeMensagemErro();
+  }
 }
+
+function exibeMensagemErro(){
+  document.querySelector('div.alert').style.display='block'
+}
+
+
 
 function exibeBotaoFechar(){
   var botao = document.getElementById("fechar");

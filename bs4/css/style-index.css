@@ -1,6 +1,12 @@
 *{
     background-color: rgb(205, 208, 228);
 }
+.alert{
+    margin-top: 30px;
+    height: 50px;
+    width: 480px;
+    margin-left: 150px;
+}
 .col-lg-8{
     text-align: center;
 }
