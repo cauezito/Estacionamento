@@ -1,6 +1,9 @@
-//document.getElementById('formulario').addEventListener('submit', cadastraVeiculo);
 window.addEventListener("load", exibePatio);
 window.addEventListener("load", listaInfoEntrada);
+
+//variável que permite um iframe por vez
+var qtd = document.getElementsByTagName("iframe").length;
+
 document.querySelector("a.valores").addEventListener("click", function() {
   var url = "valores.html";
   var height = 250;
@@ -25,47 +28,45 @@ document.querySelector("a.historico").addEventListener("click", function() {
   exibeConteudo(url, height);
 });
 
-document.querySelector("button.fechar").addEventListener("click", ocultaConteudo);
-document.querySelector("a.fechar").addEventListener("click", ocultaConteudo);
-//document.querySelector("button.solicitarEntrada").addEventListener("click", novaEntrada);
-//document.querySelector('button#cadastrar').addEventListener('click', cadastraCliente);
+document.querySelector("a.fechar").addEventListener("click", function(){
+  var iframe = document.getElementsByTagName("iframe"); 
+  for (index of iframe){
+     index.style.display = "none";
+  } 
+  qtd = 0;
+  ocultaBotaoFechar(); 
+});
 
-/*window.getElementById('formulario'.addEventListener('submit', function(){
-    var modelo = document.getElementById('modeloCarro').value;
-    var placa = document.getElementById('placaCarro').value;
-  
-    } else {
-        cadastraVeiculo(modelo, placa);
-    }
-}));*/
-//document.getElementById('enviar').addEventListener('click', window.location.reload());
-
-function listaInfoEntrada() {
-  var clientes = recuperaClientes();
-  for (cliente of clientes) {
-    $('#usu').append('<option value="'+ cliente.cpf + '">' + cliente.nome +
-    " " + cliente.sobrenome + '</option>');
-    $('#vei').append('<option value="'+ cliente.modelo + '">' + cliente.placa +
-    " " + cliente.fabricante + '</option>');
-  }
-}
+//recupera todos os clientes salvos no LS
 function recuperaClientes(){
     return JSON.parse(localStorage.getItem("patio"));
 }
+
+//exibe um iframe com o conteúdo selecionado no menu lateral
 function exibeConteudo(url, height) {
+  //iframe
   var iframe = document.createElement("IFRAME");
   iframe.setAttribute("src", url);
   iframe.style.width = 650 + "px";
   iframe.style.height = height + "px";
   iframe.style.backgroundColor = "#E5F2C9";
   var div = document.querySelector("div.obs");
-  div.appendChild(iframe);
-  // div.style="position:absolute; left: 280px; top: -250px";
+
+  //Se não houver um iframe aberto
+  if(qtd == 0){
+    div.appendChild(iframe);
+    exibeBotaoFechar();
+    qtd = 1;
+  } 
 }
 
-function ocultaConteudo() {
-  var iframe = document.getElementsByTagName("iframe")[0];
-  iframe.style.display = "none";
+function exibeBotaoFechar(){
+  var botao = document.getElementById("fechar");
+  return botao.style.display = "block";
+}
+function ocultaBotaoFechar(){
+  var botao = document.getElementById("fechar");
+  return botao.style.display = "none";
 }
 
 function cadastraCliente() {
@@ -101,7 +102,7 @@ function cadastraCliente() {
     inadimplente: inadimplente
   };
 
-  //Armazenar informações no navegador
+  //Armazena informações no navegador
   if (localStorage.getItem("patio") === null) {
     var clientes = [];
     clientes.push(cliente);
@@ -151,6 +152,29 @@ function novaEntrada() {
     localStorage.setItem("entradas", JSON.stringify(entradas));
   }
 
+  alteraQtdVagas();
+}
+//Lista o nome dos clientes e seus respectivos veículos no menu de entrada
+function listaInfoEntrada() {
+  var clientes = recuperaClientes();
+  for (cliente of clientes) {
+    $('#usu').append('<option value="'+ cliente.cpf + '">' + cliente.nome +
+    " " + cliente.sobrenome + '</option>');
+    $('#vei').append('<option value="'+ cliente.modelo + '">' + cliente.placa +
+    " " + cliente.fabricante + '</option>');
+  }
+}
+
+function alteraQtdVagas(){ 
+  alert('chamou')   
+    const VAGAS = 25;
+    var totalVagasOcupadas = 1;
+    var totalVagasRestantes = VAGAS - totalVagasOcupadas;
+
+
+parent.document.getElementById('vagasOcu').innerHTML = 'Texto aqui =)';
+
+
 }
 
 function apagarCliente(cpf) {
@@ -165,7 +189,7 @@ function apagarCliente(cpf) {
 
   exibeClientes();
 }
-
+//exibe todos os veículos no estacionados
 function exibePatio() {
   var clientes = JSON.parse(localStorage.getItem("patio"));
   var tabelaPatio = document.getElementById("resultados");
@@ -201,6 +225,7 @@ function exibePatio() {
   }
 }
 
+//exibe os clientes na tela de clientes
 function exibeClientes() {
   var clientes = JSON.parse(localStorage.getItem("patio"));
   var tabelaClientes = document.getElementById("tabelaClientes");
