@@ -36,12 +36,12 @@
                         Forma de pagamento: <br>
                         <div class="form-check">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="pgto">Dinheiro
+                              <input type="radio" class="form-check-input" name="pgto" value="Dinheiro">Dinheiro
                             </label>
                           </div>
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="pgto">Cartão
+                              <input type="radio" class="form-check-input" name="pgto" value="Cartão">Cartão
                             </label>
                           </div>
                          
@@ -50,7 +50,7 @@
                 </div>
                <div class="card-footer" style="text-align:right;">                
                 <button type="button" class="btn btn-success btn-sm" id="solicitarEntrada" onclick="novaEntrada();">Solicitar</button>
-                <button type="button" class="btn btn-outline-danger btn-sm">Cancelar</button>
+                <button type="button" class="btn btn-outline-danger btn-sm" id="limpaCamposEntrada" onclick="limpaCampos();">Limpar</button>
                </div>                
               </form>
             </div>
