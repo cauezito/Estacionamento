@@ -38,7 +38,7 @@ document.querySelector("a.fechar").addEventListener("click", function(){
 
 //recupera todos os clientes salvos no LS
 function recuperaClientes(){
-    return JSON.parse(localStorage.getItem("patio"));
+    return JSON.parse(localStorage.getItem("clientesRegistrados"));
 }
 
 //exibe um iframe com o conteúdo selecionado no menu lateral
@@ -104,17 +104,17 @@ function cadastraCliente() {
     inadimplente: inadimplente
   };
 
-  //Armazena informações no navegador
-  if (localStorage.getItem("patio") === null) {
+  //Armazena informações do cliente no navegador
+  if (localStorage.getItem("clientesRegistrados") === null) {
     var clientes = [];
     clientes.push(cliente);
     //transforma em string para poder adicionar como valor no LS.
-    localStorage.setItem("patio", JSON.stringify(clientes));
+    localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
   } else {
     //retorna as informações em formato de objeto.
-    var clientes = JSON.parse(localStorage.getItem("patio"));
+    var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
     clientes.push(cliente);
-    localStorage.setItem("patio", JSON.stringify(clientes));
+    localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
   }
   exibeClientes();
 }
@@ -134,10 +134,36 @@ function limpaCampos(){
 function listaUsuariosEntrada() {
   //recupera a lista de clientes
   var clientes = recuperaClientes();
+  var entradas = retornaEntradas();
+
+  
+
   for (cliente of clientes) {
-    $('#usu').append('<option value="'+ cliente.nome +'">' + cliente.nome +
-    " " + cliente.sobrenome + '</option>'); 
+    entradas.forEach(function(){
+      if(cliente.placa === 1) {
+          // achou!
+      } else {
+        $('#usu').append('<option value="'+ cliente.nome +'">' + cliente.nome +
+        " " + cliente.sobrenome + '</option>'); 
+      }
+      });
+  
+    
   }
+
+  
+  
+ /* for (cliente of clientes) {
+    //verifica se a placa do veículo do cliente já consta no array de entradas
+    if(entradas.placa.indexOf(cliente.placa) == -1){
+      $('#usu').append('<option value="'+ cliente.nome +'">' + cliente.nome +
+      " " + cliente.sobrenome + '</option>'); 
+      alert(' n encontrou')     
+    } else {
+      alert('encontrou')
+    }
+    
+  }*/
   var selectCliente = document.getElementById("usu");
 
   selectCliente.addEventListener("blur", function() {
@@ -160,26 +186,50 @@ function listaUsuariosEntrada() {
   }); 
 }
 
+//nova entrada no pátio
 function novaEntrada() {
   var selectCliente = document.getElementById("usu");
-  var cliente = selectCliente.options[selectCliente.selectedIndex].value;
+  //captura a escolha de cliente (nome) do combobox
+  var nomeCliente = selectCliente.options[selectCliente.selectedIndex].value;
+  alert(nomeCliente)
+  var sobrenomeCliente = null;
+  var cpfCliente = null;
   var selectVeiculo = document.getElementById("vei");
+  //captura a escolha de veículo (do cliente selecionado) do combobox
   var veiculo = selectVeiculo.options[selectVeiculo.selectedIndex].value;
+  var modelo = null;
+  var placa = null;
   var horario = new Date();
   //captura a forma de pagamento escolhida
   var pagamento = document.querySelector('input[name="pgto"]:checked').value;
 
-  alert(pagamento)
+  //captura os dados adicionais do cliente selecionado
+
+  //retorna a lista de clientes registrados
+  var clientes = recuperaClientes();
+
+  for(cliente of clientes){
+    if(cliente.nome === nomeCliente){
+      alert('é')
+      sobrenomeCliente = cliente.sobrenome;
+      cpfCliente = cliente.cpf;  
+      modelo = cliente.modelo;
+      placa = cliente.placa;    
+    }
+  }
     
   entrada = {
-    cliente: cliente,
-    veiculo: veiculo,
+    nomeCliente: nomeCliente,
+    sobrenomeCliente: sobrenomeCliente,
+    cpfCliente : cpfCliente,
+    modelo: modelo,
+    placa : placa,
     formaPgto : pagamento,
     horaContratacao: horario.getHours(),
     minutoContratacao: horario.getMinutes()
   };
 
-   //Armazenar informações no navegador
+   //Armazena informações no navegador
    if (localStorage.getItem("entradas") === null) {
     var entradas = [];
     entradas.push(entrada);
@@ -187,16 +237,16 @@ function novaEntrada() {
     localStorage.setItem("entradas", JSON.stringify(entradas));
   } else {
     //retorna as informações em formato de objeto.
-    var entradas = JSON.parse(localStorage.getItem("entradas"));
+    var entradas = retornaEntradas();
     entradas.push(entrada);
     localStorage.setItem("entradas", JSON.stringify(entradas));
   }
-
+  //recarrega a lista de carros no pátio
   exibePatio();
 }
 
 function apagarCliente(cpf) {
-  var clientes = JSON.parse(localStorage.getItem("patio"));
+  var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
   for (var i = 0; i < clientes.length; i++) {
     if (clientes[i].cpf == cpf) {
       clientes.splice(i, 1);
@@ -207,22 +257,27 @@ function apagarCliente(cpf) {
 
   exibeClientes();
 }
+
+//retorna a lista de entradas
+function retornaEntradas(){
+  return JSON.parse(localStorage.getItem("entradas"));
+}
 //exibe todos os veículos estacionados
 function exibePatio() {
-  var entradas = JSON.parse(localStorage.getItem("entradas"));
+  var entradas = retornaEntradas();
   var tabelaPatio = document.getElementById("resultado");
 
-  tabelaPatio.innerHTML = '';
+  //tabelaPatio.innerHTML = '';
   for (var i = 0; i < entradas.length; i++) {
-    var nomeCliente = entradas[i].cliente.nome;
-    var sobrenomeCliente = entradas[i].cliente.sobrenome;
-    var cpfCliente = entradas[i].cliente.cpf;
-    var modelo = entradas[i].veiculo.modelo;
-    var placa = entradas[i].veiculo.placa;
+    var nomeCliente = entradas[i].nomeCliente;
+    var sobrenomeCliente = entradas[i].sobrenomeCliente;
+    var cpfCliente = entradas[i].cpfCliente;
+    var modelo = entradas[i].modelo;
+    var placa = entradas[i].placa;
     var hora = entradas[i].horaContratacao;
     var minuto = entradas[i].minutoContratacao;  
 
-    tabelaPatio.innerHTML += '<tr><td>' + nomeCliente + sobrenomeCliente + '</td><td>' + cpfCliente +
+    tabelaPatio.innerHTML += '<tr><td>' + nomeCliente + ' ' + sobrenomeCliente + '</td><td>' + cpfCliente +
      '</td><td>' + modelo + '</td><td>' + placa + '</td><td>' + hora + ":" + minuto + '</td>' +
       '</tr>';
   }
@@ -230,7 +285,7 @@ function exibePatio() {
 
 //exibe os clientes na tela de clientes
 function exibeClientes() {
-  var clientes = JSON.parse(localStorage.getItem("patio"));
+  var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
   var tabelaClientes = document.getElementById("tabelaClientes");
   tabelaClientes.innerHTML = "";
 
@@ -248,31 +303,11 @@ function exibeClientes() {
     var isInadimplente = clientes[i].inadimplente;
 
     tabelaClientes.innerHTML +=
-      "<tr><td>" +
-      nome +
-      "</td><td>" +
-      sobrenome +
-      "</td><td>" +
-      cpf +
-      "</td><td>" +
-      logradouro +
-      "</td><td>" +
-      num +
-      "</td><td>" +
-      cidade +
-      "</td><td>" +
-      estado +
-      "</td><td>" +
-      modelo +
-      "</td><td>" +
-      placa +
-      "</td><td>" +
-      fabricante +
-      "</td><td>" +
-      isInadimplente +
+      "<tr><td>" + nome + "</td><td>" + sobrenome + "</td><td>" +  cpf +
+      "</td><td>" + logradouro + "</td><td>" + num + "</td><td>" + cidade +
+      "</td><td>" + estado + "</td><td>" + modelo + "</td><td>" + placa +
+      "</td><td>" + fabricante + "</td><td>" + isInadimplente +
       '</td><td><button class="btn btn-danger" onclick="apagarCliente(\'' +
-      cpf +
-      "')\">Excluir</button>" +
-      "</td></tr>";
+      cpf + "')\">Excluir</button>" + "</td></tr>";
   }
 }
