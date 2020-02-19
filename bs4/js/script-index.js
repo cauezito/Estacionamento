@@ -134,40 +134,38 @@ function limpaCampos(){
 function listaUsuariosEntrada() {
   //recupera a lista de clientes
   var clientes = recuperaClientes();
+  //recupera a lista de entradas 
   var entradas = retornaEntradas();
+  var placaEntradas = [];
 
-  
-
-  for (cliente of clientes) {
-    entradas.forEach(function(){
-      if(cliente.placa === 1) {
-          // achou!
-      } else {
-        $('#usu').append('<option value="'+ cliente.nome +'">' + cliente.nome +
-        " " + cliente.sobrenome + '</option>'); 
-      }
-      });
-  
-    
+  //se a lista de entrada já estiver formada, captura todas as placas
+  if(entradas !== null){
+    for(var i=0 ; i< entradas.length; i++){
+      placaEntradas[i] = entradas[i].placa;
+    }
   }
 
-  
-  
- /* for (cliente of clientes) {
-    //verifica se a placa do veículo do cliente já consta no array de entradas
-    if(entradas.placa.indexOf(cliente.placa) == -1){
-      $('#usu').append('<option value="'+ cliente.nome +'">' + cliente.nome +
-      " " + cliente.sobrenome + '</option>'); 
-      alert(' n encontrou')     
-    } else {
-      alert('encontrou')
+  for(var i = 0; i< clientes.length; i++){
+    //se já houver alguma entrada
+    if(entradas !== null){
+      //verifica se a placa do veículo do cliente consta na lista de placas que já deram entrada
+      if(placaEntradas.indexOf(clientes[i].placa) === -1){
+        $('#usu').append('<option value="'+ clientes[i].nome +'">' + clientes[i].nome +
+        " " + clientes[i].sobrenome + '</option>');
+        alert('aqui') 
+      }
+    } //se ainda não houver entrada
+    else {
+      //adiciona todos os clientes no combobox
+      $('#usu').append('<option value="'+ clientes[i].nome +'">' + clientes[i].nome +
+        " " + clientes[i].sobrenome + '</option>'); 
     }
-    
-  }*/
+  }
+ 
   var selectCliente = document.getElementById("usu");
 
   selectCliente.addEventListener("blur", function() {
-    //pega o nome escolhido
+    //captura o nome escolhido
     var clienteSelecionado = selectCliente.options[selectCliente.selectedIndex].value;
     //captura a posição do cliente selecionado na lista de clientes
     for(var i=0; i<clientes.length; i++) {
@@ -186,12 +184,26 @@ function listaUsuariosEntrada() {
   }); 
 }
 
+function validaEntrada(nomeCliente){
+  if(nomeCliente === "Selecione o cliente"){
+    alert('Por favor, escolha um usuário e um veículo');
+    return false;
+  } else {
+    if(confirm('Tem certeza que deseja incluir o cliente ' + nomeCliente + ' na lista de entrada?')) {
+      // limpar os campos
+      
+    return true;
+  } else {
+    return false;
+  }
+}
+}
+
 //nova entrada no pátio
 function novaEntrada() {
   var selectCliente = document.getElementById("usu");
   //captura a escolha de cliente (nome) do combobox
   var nomeCliente = selectCliente.options[selectCliente.selectedIndex].value;
-  alert(nomeCliente)
   var sobrenomeCliente = null;
   var cpfCliente = null;
   var selectVeiculo = document.getElementById("vei");
@@ -203,46 +215,48 @@ function novaEntrada() {
   //captura a forma de pagamento escolhida
   var pagamento = document.querySelector('input[name="pgto"]:checked').value;
 
-  //captura os dados adicionais do cliente selecionado
+  if(validaEntrada(nomeCliente)){
 
-  //retorna a lista de clientes registrados
-  var clientes = recuperaClientes();
 
-  for(cliente of clientes){
-    if(cliente.nome === nomeCliente){
-      alert('é')
-      sobrenomeCliente = cliente.sobrenome;
-      cpfCliente = cliente.cpf;  
-      modelo = cliente.modelo;
-      placa = cliente.placa;    
+    //retorna a lista de clientes registrados
+    var clientes = recuperaClientes();
+
+    for(cliente of clientes){
+      if(cliente.nome === nomeCliente){
+        sobrenomeCliente = cliente.sobrenome;
+        cpfCliente = cliente.cpf;  
+        modelo = cliente.modelo;
+        placa = cliente.placa;    
+      }
     }
-  }
-    
-  entrada = {
-    nomeCliente: nomeCliente,
-    sobrenomeCliente: sobrenomeCliente,
-    cpfCliente : cpfCliente,
-    modelo: modelo,
-    placa : placa,
-    formaPgto : pagamento,
-    horaContratacao: horario.getHours(),
-    minutoContratacao: horario.getMinutes()
-  };
+      
+    entrada = {
+      nomeCliente: nomeCliente,
+      sobrenomeCliente: sobrenomeCliente,
+      cpfCliente : cpfCliente,
+      modelo: modelo,
+      placa : placa,
+      formaPgto : pagamento,
+      horaContratacao: horario.getHours(),
+      minutoContratacao: horario.getMinutes()
+    };
 
-   //Armazena informações no navegador
-   if (localStorage.getItem("entradas") === null) {
-    var entradas = [];
-    entradas.push(entrada);
-    //transforma em string para poder adicionar como valor no LS.
-    localStorage.setItem("entradas", JSON.stringify(entradas));
-  } else {
-    //retorna as informações em formato de objeto.
-    var entradas = retornaEntradas();
-    entradas.push(entrada);
-    localStorage.setItem("entradas", JSON.stringify(entradas));
+    //Armazena informações no navegador
+    if (localStorage.getItem("entradas") === null) {
+      var entradas = [];
+      entradas.push(entrada);
+      //transforma em string para poder adicionar como valor no LS.
+      localStorage.setItem("entradas", JSON.stringify(entradas));
+    } else {
+      //retorna as informações em formato de objeto.
+      var entradas = retornaEntradas();
+      entradas.push(entrada);
+      localStorage.setItem("entradas", JSON.stringify(entradas));
+    }
+    //recarrega a lista de carros no pátio
+    alert('Cliente incluído!')
+    exibePatio();
   }
-  //recarrega a lista de carros no pátio
-  exibePatio();
 }
 
 function apagarCliente(cpf) {
