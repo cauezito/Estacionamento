@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SafeCar</title>
+    <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css"/>
+</head>
+<body style="background-color: #B4B8AB;">
+<div>
+    <div class="container">
+        <div class="card col-12 mx-auto mt-4">
+            <div class="card-header">
+                <h5 class="h5" id="h5">Solicitação de saída</h5>
+            </div>            
+        <div class="card-body">
+            <form> 
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <select class="custom-select" id="veiSaida">
+                            <option disabled selected>Selecione o veículo</option>                           
+                          </select>
+                      </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        Hora de entrada no pátio:
+                        <div id="horaEntrada">oi</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        Tempo total:
+                        <div id="tempoTotal"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        Forma de pagamento: <br>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="pgto" value="Dinheiro" checked>Dinheiro
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="pgto" value="Cartão">Cartão
+                            </label>
+                          </div>                         
+                    </div>                    
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        Total a pagar:
+                        <div class="horaEntrada">oi</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        Recebido:
+                        <div class="horaSaida"></div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        Troco:
+                        <div class="tempoTotal"></div>
+                    </div>
+                </div>
+               <div class="card-footer" style="text-align:right;">                
+                <button type="button" class="btn btn-success btn-sm" id="solicitarSaida" onclick="novaSaida();">Solicitar</button>
+               </div>                
+              </form>
+            </div>
+            </div>
+        </div>
+    
+    </div>
+    <script src="bs4/js/jquery.js"></script>
+    <script src="bs4/js/bootstrap.min.js"></script>
+    <script src="bs4/js/script-index.js"></script>
+</body>
+</html>

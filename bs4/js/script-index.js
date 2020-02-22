@@ -1,5 +1,6 @@
 window.addEventListener("load", exibePatio);
 window.addEventListener("load", listaUsuariosEntrada);
+window.addEventListener("load", listaVeiculosSaida);
 
 //variável que permite um iframe por vez
 var qtd = document.getElementsByTagName("iframe").length;
@@ -18,7 +19,12 @@ document.querySelector("a.entrada").addEventListener("click", function() {
   var url = "entrada.html";
   var height = 480;
   exibeConteudo(url, height);
+});
 
+document.querySelector("a.saida").addEventListener("click", function() {
+  var url = "saida.html";
+  var height = 480;
+  exibeConteudo(url, height);
 });
 
 document.querySelector("a.historico").addEventListener("click", function() {
@@ -183,6 +189,48 @@ function listaUsuariosEntrada() {
 
   }); 
 }
+
+function listaVeiculosSaida(){
+  //recupera a lista de entradas 
+  var entradas = retornaEntradas();
+  var placaEntradas = [];
+
+  //se a lista de entrada já estiver formada, captura todas as placas
+  if(entradas !== null){
+    for(entrada of entradas){
+      $('#veiSaida').append('<option value="'+ entrada.placa +'">' + entrada.modelo +
+      " " + entrada.placa + '</option>');
+      alert('aqui')
+    }
+  }
+
+  
+ 
+  var selectVeiculo = document.getElementById("veiSaida");
+  var horaEntrada = document.getElementById("horaEntrada");
+  var pos;
+
+  selectVeiculo.addEventListener("blur", function() {
+    //captura o veículo escolhido
+    var veiculoSelecionado = selectVeiculo.options[selectVeiculo.selectedIndex].value;
+    //captura a posição do veículo selecionado na lista de entradas
+    for(var i=0; i<entradas.length; i++) {
+      if(entradas[i].placa === veiculoSelecionado) {
+        pos = i;
+        
+      }
+    }
+
+    horaEntrada.innerHTML = entradas[pos].horaContratacao + ":" + entradas[pos].minutoContratacao;
+
+    
+
+
+
+
+  });
+}
+
 
 function validaEntrada(nomeCliente){
   if(nomeCliente === "Selecione o cliente"){
