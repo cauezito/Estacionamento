@@ -193,43 +193,72 @@ function listaUsuariosEntrada() {
 function listaVeiculosSaida(){
   //recupera a lista de entradas 
   var entradas = retornaEntradas();
-  var placaEntradas = [];
 
   //se a lista de entrada já estiver formada, captura todas as placas
   if(entradas !== null){
     for(entrada of entradas){
       $('#veiSaida').append('<option value="'+ entrada.placa +'">' + entrada.modelo +
       " " + entrada.placa + '</option>');
-      alert('aqui')
     }
   }
+}
 
-  
- 
+function calculaPagamento(){
+  var entradas = retornaEntradas();
+  var selectVeiSaida = document.getElementById("veiSaida");
+  var divHoraEntrada = document.getElementById("horaEntrada");
+  var divTempoTotal = document.getElementById("tempoTotal")
+  var index = -1;
+
+  selectVeiSaida.addEventListener("blur", function() {
+    //captura a placa do veículo escolhido
+    var veiculoSelecionado = selectVeiSaida.options[selectVeiSaida.selectedIndex].value;
+
+    //captura a posição do cliente selecionado na lista de clientes
+    for(var i=0; i<entradas.length; i++) {
+     
+      if(entradas[i].placa === veiculoSelecionado) {
+        var hora = new Date(entradas[i].data).getHours();
+        var minutos = new Date(entradas[i].data).getMinutes();
+        divHoraEntrada.innerHTML = hora + ':' + minutos;
+        divTempoTotal.innerHTML = calculaTempoEstacionado(new Date().getTime()) + ' horas';
+        
+      }  else {
+        alert("opa")
+      }  
+    }
+  })  
+}
+
+function calculaTempoEstacionado(data){
+  var atual = moment();
+  var antiga = new Date(data);
+  moment.locale('pt-BR');
+
+  const diferenca = Math.abs(atual.getTime() - antiga.getTime());
+  const horas = Math.ceil(diferenca / (1000 * 60 * 60));
+  return horas;
+
+}
+
+function novaSaida(){
+  var horaAtual = new Date().getHours();
   var selectVeiculo = document.getElementById("veiSaida");
-  var horaEntrada = document.getElementById("horaEntrada");
+  var divHoraEntrada = document.getElementById("horaEntrada");
+  var divTempoTotal = document.getElementById("tempoTotal")
+  var tempoTotal;
   var pos;
 
-  selectVeiculo.addEventListener("blur", function() {
-    //captura o veículo escolhido
-    var veiculoSelecionado = selectVeiculo.options[selectVeiculo.selectedIndex].value;
-    //captura a posição do veículo selecionado na lista de entradas
-    for(var i=0; i<entradas.length; i++) {
-      if(entradas[i].placa === veiculoSelecionado) {
-        pos = i;
-        
-      }
-    }
+  
 
-    horaEntrada.innerHTML = entradas[pos].horaContratacao + ":" + entradas[pos].minutoContratacao;
+    alert(entradas[pos].data)
+    tempoTotal = entradas[pos].data.getHours() - horaAtual;
 
-    
+    divHoraEntrada.innerHTML = entradas[pos].data.getHours();
+    divTempoTotal.innerHTML = tempoTotal;
 
 
-
-
-  });
-}
+  }
 
 
 function validaEntrada(nomeCliente){
@@ -259,7 +288,6 @@ function novaEntrada() {
   var veiculo = selectVeiculo.options[selectVeiculo.selectedIndex].value;
   var modelo = null;
   var placa = null;
-  var horario = new Date();
   //captura a forma de pagamento escolhida
   var pagamento = document.querySelector('input[name="pgto"]:checked').value;
 
@@ -285,8 +313,7 @@ function novaEntrada() {
       modelo: modelo,
       placa : placa,
       formaPgto : pagamento,
-      horaContratacao: horario.getHours(),
-      minutoContratacao: horario.getMinutes()
+      data : new Date()
     };
 
     //Armazena informações no navegador
@@ -336,11 +363,10 @@ function exibePatio() {
     var cpfCliente = entradas[i].cpfCliente;
     var modelo = entradas[i].modelo;
     var placa = entradas[i].placa;
-    var hora = entradas[i].horaContratacao;
-    var minuto = entradas[i].minutoContratacao;  
+    var hora = new Date(entradas[i].data).toLocaleString("pt-BR" , {hour: "numeric", minute: "numeric"});
 
     tabelaPatio.innerHTML += '<tr><td>' + nomeCliente + ' ' + sobrenomeCliente + '</td><td>' + cpfCliente +
-     '</td><td>' + modelo + '</td><td>' + placa + '</td><td>' + hora + ":" + minuto + '</td>' +
+     '</td><td>' + modelo + '</td><td>' + placa + '</td><td data-hora=' + entradas[i].data + '>' + hora + 
       '</tr>';
   }
 }
@@ -373,3 +399,4 @@ function exibeClientes() {
       cpf + "')\">Excluir</button>" + "</td></tr>";
   }
 }
+
