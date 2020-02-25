@@ -32,21 +32,17 @@
                       </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
-                        Forma de pagamento: <br>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="pgto" value="Dinheiro" checked>Dinheiro
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="pgto" value="Cartão">Cartão
-                            </label>
-                          </div>
-                         
+                  <div class="form-group col-md-12">
+                      <select class="custom-select" id="tipo">
+                          <option disabled selected>Selecione o tipo do veículo</option>
+                          <option>Carro</option>
+                          <option>Moto</option>
+                          <option>Caminhão</option>
+                        </select>
                     </div>
-                    <small>OBS: A contagem do tempo começará assim que a solicitação for aprovada. </small> 
+              </div>
+                <div class="form-row">
+                  <small>OBS: A contagem do tempo começará assim que a solicitação for aprovada. </small> 
                 </div>
                <div class="card-footer" style="text-align:right;">                
                 <button type="button" class="btn btn-success btn-sm" id="solicitarEntrada" onclick="novaEntrada();">Solicitar</button>

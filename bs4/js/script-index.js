@@ -2,6 +2,7 @@ window.addEventListener("load", exibePatio);
 window.addEventListener("load", listaUsuariosEntrada);
 window.addEventListener("load", listaVeiculosSaida);
 
+
 //variável que permite um iframe por vez
 var qtd = document.getElementsByTagName("iframe").length;
 document.querySelector("a.valores").addEventListener("click", function() {
@@ -33,14 +34,24 @@ document.querySelector("a.historico").addEventListener("click", function() {
   exibeConteudo(url, height);
 });
 
-document.querySelector("a.fechar").addEventListener("click", function(){
+document.querySelector("a.fechar").addEventListener("click", ocultaIframe);
+/*document.querySelector("a.fechar").addEventListener("click", function(){
   var iframe = document.getElementsByTagName("iframe"); 
   for (index of iframe){
      index.style.display = "none";
   } 
   qtd = 0;
   ocultaBotaoFechar(); 
-});
+});*/
+
+function ocultaIframe(){
+  var iframe = document.getElementsByTagName("iframe"); 
+  for (index of iframe){
+     index.style.display = "none";
+  } 
+  qtd = 0;
+  ocultaBotaoFechar(); 
+}
 
 //recupera todos os clientes salvos no LS
 function recuperaClientes(){
@@ -77,52 +88,79 @@ function ocultaBotaoFechar(){
   var botao = document.getElementById("fechar");
   return botao.style.display = "none";
 }
-function cadastraCliente() {
+
+function validaCliente(){
   //cliente
   var nome = document.getElementById("nome_cliente").value;
   var sobrenome = document.getElementById("sobrenome_cliente").value;
   var cpf = document.getElementById("cpf_cliente").value;
   var logradouro = document.getElementById("logradouro_cliente").value;
-  var num_logradouro = document.getElementById("numero_logradouro").value;
   var cidade = document.getElementById("cidade_cliente").value;
   var estado = document.getElementById("estado_cliente").value;
-  var inadimplente = "não";
 
   //veículo
   var modelo = document.getElementById("modelo_veiculo").value;
   var placa = document.getElementById("placa_veiculo").value;
   var fabricante = document.getElementById("fabricante_veiculo").value;
 
-  //validação do formulário
-
-  //criação do objeto cliente
-  cliente = {
-    nome: nome,
-    sobrenome: sobrenome,
-    cpf: cpf,
-    logradouro: logradouro,
-    num_logradouro: num_logradouro,
-    cidade: cidade,
-    estado: estado,
-    modelo: modelo,
-    placa: placa,
-    fabricante: fabricante,
-    inadimplente: inadimplente
-  };
-
-  //Armazena informações do cliente no navegador
-  if (localStorage.getItem("clientesRegistrados") === null) {
-    var clientes = [];
-    clientes.push(cliente);
-    //transforma em string para poder adicionar como valor no LS.
-    localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
+  if(nome.length() > 4 && nome.length() < 12){
+    if(sobrenome.length() > 4 && sobrenome.length() < 15){
+      if(cpf.length() === 11){
+        if(logradouro.length() > 6 && logradouro.length() < 20){
+          if(cidade.length() > 5 && cidade.length() < 20){
+            if(estado.length() === 2){
+              if(modelo.length() > 2 && modelo.length() < 15){
+                if(placa.length() === 7){
+                  if(fabricante.length() > 2 && fabricante.length() < 20){
+                    alert('test')
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   } else {
-    //retorna as informações em formato de objeto.
-    var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
-    clientes.push(cliente);
-    localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
+    alert('Revise os dados!')
+    return false;
   }
-  exibeClientes();
+}
+function cadastraCliente() {
+  if(validaCliente()){
+    //criação do objeto cliente
+    cliente = {
+      nome: nome,
+      sobrenome: sobrenome,
+      cpf: cpf,
+      logradouro: logradouro,
+      num_logradouro: num_logradouro,
+      cidade: cidade,
+      estado: estado,
+      modelo: modelo,
+      placa: placa,
+      fabricante: fabricante,
+      inadimplente: inadimplente
+    };
+
+    //Armazena informações do cliente no navegador
+    if (localStorage.getItem("clientesRegistrados") === null) {
+      var clientes = [];
+      clientes.push(cliente);
+      //transforma em string para poder adicionar como valor no LS.
+      localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
+    } else {
+      //retorna as informações em formato de objeto.
+      var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
+      clientes.push(cliente);
+      localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
+    }
+    exibeClientes();
+    alert('Cliente incluído!')
+  } else {
+    alert('testeeee')
+  }
 }
 
 //executada ao click do botão "limpar" na tela de entrada
@@ -203,97 +241,115 @@ function listaVeiculosSaida(){
   }
 }
 
-function calculaPagamento(){
-  var entradas = retornaEntradas();
+function preencheInfoPagamento(){
+  const entradas = retornaEntradas();
   var selectVeiSaida = document.getElementById("veiSaida");
   var divHoraEntrada = document.getElementById("horaEntrada");
-  var divTempoTotal = document.getElementById("tempoTotal")
-  var index = -1;
+  var divTempoTotal = document.getElementById("tempoTotal");
+  var divTotalPagar = document.getElementById("totalPagar");
+
 
   selectVeiSaida.addEventListener("blur", function() {
     //captura a placa do veículo escolhido
     var veiculoSelecionado = selectVeiSaida.options[selectVeiSaida.selectedIndex].value;
 
     //captura a posição do cliente selecionado na lista de clientes
-    for(var i=0; i<entradas.length; i++) {
-     
+    for(var i=0; i<entradas.length; i++) {     
       if(entradas[i].placa === veiculoSelecionado) {
+        var data = new Date(entradas[i].data).toLocaleDateString('pt-BR');
         var hora = new Date(entradas[i].data).getHours();
         var minutos = new Date(entradas[i].data).getMinutes();
-        divHoraEntrada.innerHTML = hora + ':' + minutos;
-        divTempoTotal.innerHTML = calculaTempoEstacionado(new Date().getTime()) + ' horas';
-        
-      }  else {
-        alert("opa")
-      }  
+        divHoraEntrada.innerHTML = data + ' - ' + hora + ':' + minutos;
+        divTempoTotal.innerHTML = calculaTempoEstacionado(new Date(entradas[i].data).getTime()); 
+        divTotalPagar.innerHTML = 'R$' + calculaPagamento(minutos);       
+      }
     }
   })  
 }
 
-function calculaTempoEstacionado(data){
-  var atual = moment();
-  var antiga = new Date(data);
-  moment.locale('pt-BR');
+function calculaPagamento(min){ 
+  const min30 = 10;
+  const min45 = 16;
+  var minutos = min; 
 
-  const diferenca = Math.abs(atual.getTime() - antiga.getTime());
-  const horas = Math.ceil(diferenca / (1000 * 60 * 60));
-  return horas;
+  if(minutos <= 30){
+    minutos = 30; 
+  } 
+}
 
+function calculaTempoEstacionado(timeStamp){
+  var diff = (new Date() - new Date(timeStamp));
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor(diff / (1000 * 60 * 60));
+  const minutos = Math.floor(diff / 60000);
+  const segundos = Math.floor((diff % 60000) / 1000);  
+
+  return dias + ' dia(s), ' + horas + ' hora(s), ' + minutos + ' minuto(s) e ' + segundos + ' segundo(s).';
 }
 
 function novaSaida(){
-  var horaAtual = new Date().getHours();
   var selectVeiculo = document.getElementById("veiSaida");
   var divHoraEntrada = document.getElementById("horaEntrada");
   var divTempoTotal = document.getElementById("tempoTotal")
   var tempoTotal;
   var pos;
+    //captura a forma de pagamento escolhida
+    var pagamento = document.querySelector('input[name="pgto"]:checked').value;
 
-  
-
-    alert(entradas[pos].data)
-    tempoTotal = entradas[pos].data.getHours() - horaAtual;
-
-    divHoraEntrada.innerHTML = entradas[pos].data.getHours();
-    divTempoTotal.innerHTML = tempoTotal;
+    saida = {
+      nomeCliente: nomeCliente,
+      sobrenomeCliente: sobrenomeCliente,
+      cpfCliente : cpfCliente,
+      modelo: modelo,
+      placa : placa,
+      tipoVeiculo : tipo,
+      data : new Date()
+    };
 
 
   }
 
 
-function validaEntrada(nomeCliente){
-  if(nomeCliente === "Selecione o cliente"){
-    alert('Por favor, escolha um usuário e um veículo');
+function validaEntrada(nomeCliente, tipoVeiculo){
+  if(nomeCliente === "Selecione o cliente" || tipoVeiculo === "Selecione o tipo do veículo"){
+    alert('Por favor, escolha um usuário, um veículo e um tipo.');
     return false;
   } else {
     if(confirm('Tem certeza que deseja incluir o cliente ' + nomeCliente + ' na lista de entrada?')) {
-      // limpar os campos
-      
-    return true;
-  } else {
-    return false;
+      return true;
+    } else {
+      alert('Cliente não incluído');
+      return false;
+    }
   }
 }
+
+function setaOptionsEntrada(nomeCliente, veiculoSelecionado, tipoVeiculo){
+  nome = nomeCliente;
+  veiculo = veiculoSelecionado;
+  tipo = tipoVeiculo;
+  
+  nome = 'Selecione o cliente';
+  veiculo = 'Selecione o veículo';
+  tipo = 'Selecione o tipo do veículo';
 }
 
 //nova entrada no pátio
 function novaEntrada() {
   var selectCliente = document.getElementById("usu");
+  var selectTipo = document.getElementById("tipo");
   //captura a escolha de cliente (nome) do combobox
   var nomeCliente = selectCliente.options[selectCliente.selectedIndex].value;
   var sobrenomeCliente = null;
   var cpfCliente = null;
   var selectVeiculo = document.getElementById("vei");
+  var veiculoSelecionado = selectVeiculo.options[selectVeiculo.selectedIndex].value;
   //captura a escolha de veículo (do cliente selecionado) do combobox
-  var veiculo = selectVeiculo.options[selectVeiculo.selectedIndex].value;
+  var tipoVeiculo = selectTipo.options[selectTipo.selectedIndex].value;
   var modelo = null;
   var placa = null;
-  //captura a forma de pagamento escolhida
-  var pagamento = document.querySelector('input[name="pgto"]:checked').value;
 
-  if(validaEntrada(nomeCliente)){
-
-
+  if(validaEntrada(nomeCliente, tipoVeiculo)){
     //retorna a lista de clientes registrados
     var clientes = recuperaClientes();
 
@@ -304,7 +360,7 @@ function novaEntrada() {
         modelo = cliente.modelo;
         placa = cliente.placa;    
       }
-    }
+    }; 
       
     entrada = {
       nomeCliente: nomeCliente,
@@ -312,7 +368,7 @@ function novaEntrada() {
       cpfCliente : cpfCliente,
       modelo: modelo,
       placa : placa,
-      formaPgto : pagamento,
+      tipoVeiculo : tipo,
       data : new Date()
     };
 
@@ -329,8 +385,10 @@ function novaEntrada() {
       localStorage.setItem("entradas", JSON.stringify(entradas));
     }
     //recarrega a lista de carros no pátio
-    alert('Cliente incluído!')
     exibePatio();
+    alert('Cliente incluído!');
+    setaOptionsEntrada(nomeCliente, veiculoSelecionado, tipoVeiculo);
+
   }
 }
 
