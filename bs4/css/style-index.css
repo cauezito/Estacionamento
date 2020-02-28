@@ -39,6 +39,10 @@ a{
     color: #2F4858;
     font-weight: bold;
 }
+.atualizarPg{
+    float: right;
+    margin-right: 15px;
+}
 a:hover{
     text-decoration: overline;
 }
@@ -50,4 +54,11 @@ input{
     background-color: white;
     
 }
+
+#vagasOcu, #vagasRes, #totalVagas{
+        background-color: #E5F2C9;
+    
+
+}
+
 
