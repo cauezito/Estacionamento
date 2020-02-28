@@ -19,44 +19,50 @@
                 <h5 class="h5">Dados do cliente</h5>
             </div>
             <div class="card-body">
-            <form> 
+            <form onsubmit="validaCliente(this);"> 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Nome: </label>
-                    <input type="text" class="form-control" id="nome_cliente">
+                    <input type="text" class="form-control" id="nome_cliente"
+                           required maxlength="15" minlength="3">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>Sobrenome: </label>
-                    <input type="text" class="form-control" id="sobrenome_cliente">
+                    <input type="text" class="form-control" id="sobrenome_cliente"
+                           required maxlength="15" minlength="3">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label>CPF: </label>
-                    <input type="number" class="form-control" id="cpf_cliente">
+                    <input type="number" class="form-control" id="cpf_cliente"
+                           required maxlength="11" minlength="11">
                   </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-10">
                         <label for="inputAddress">Logradouro</label>
                         <input type="text" class="form-control" id="logradouro_cliente" 
-                        placeholder="Rua, avenida, beco">
+                        placeholder="Rua, avenida, beco"
+                               required maxlength="15" minlength="5">
                     </div>
                         <div class="form-group col-2">
                         <label>Número:</label>
-                        <input type="number" class="form-control" id="numero_logradouro">
+                        <input type="number" class="form-control" id="numero_logradouro" required maxlength="9" minlength="1">
                         </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-6">
                     <label>Cidade: </label>
-                    <input type="text" class="form-control" id="cidade_cliente">
+                    <input type="text" class="form-control" id="cidade_cliente"
+                           required maxlength="30" minlength="5">
                   </div>
                   <div class="form-group col-3">
                     <label>Estado: </label>
-                    <input type="text" class="form-control" id="estado_cliente">
+                    <input type="text" class="form-control" id="estado_cliente"
+                           required maxlength="2" minlength="2">
                   </div>
                 </div>
             </div>
@@ -67,23 +73,25 @@
                 <div class="form-row">
                     <div class="form-group col-6">
                         <label for="inputAddress">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo_veiculo">
+                        <input type="text" class="form-control" id="modelo_veiculo"
+                               required maxlength="15" minlength="3">
                     </div>
                         <div class="form-group col-6">
                             <label>Placa:</label>
-                            <input type="text" class="form-control" id="placa_veiculo">
+                            <input type="text" class="form-control" id="placa_veiculo"
+                                   required maxlength="7" minlength="8">
                         </div>
                 </div>
                 <div class="form-row">
                         <div class="form-group col-md-2">
                             <label>Fabricante:</label>
-                            <input type="text" class="form-control" id="fabricante_veiculo">
+                            <input type="text" class="form-control" id="fabricante_veiculo"
+                                   required maxlength="15" minlength="3">
                         </div>
                 </div>
             </div>
                <div class="card-footer align-content-centerx">
-                <button type="submit" class="btn btn-success btn-sm" onclick="cadastraCliente();">Cadastrar</button>
-                <button type="submit" class="btn btn-danger btn-sm fechar">Fechar</button>
+                <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
                </div>                
               </form>
             </div>
