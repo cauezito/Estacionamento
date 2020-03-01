@@ -406,17 +406,35 @@
               }
             }
 
+            function estaEstacionado(cpf){
+                var entradas = retornaEntradas();
+                var i;
+                for(i of entradas){
+                    if(i.cpf === cpf){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
             function apagarCliente(cpf) {
               var clientes = recuperaClientes();
-              for (var i = 0; i < clientes.length; i++) {
-                if (clientes[i].cpf === cpf) {
-                    if(confirm("Tem certeza que deseja excluir o cliente " +
-                         clientes[i].nome + "?")){
-                        clientes.splice(i, 1);
-                         localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
-                        alert("Cliente excluído!")
+              var entradas = retornaEntradas();
+                
+              if(estaEstacionado(cpf)){
+                  for (var i = 0; i < clientes.length; i++) {
+                    if (clientes[i].cpf === cpf) {
+                        if(confirm("Tem certeza que deseja excluir o cliente " +
+                             clientes[i].nome + "?")){
+                            clientes.splice(i, 1);
+                             localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
+                            alert("Cliente excluído!")
+                        } 
                     } 
-                } 
+                  }
+              } else {
+                  alert("O carro do cliente está estacionado. Solicite a saída e tente novamente!")
               }
 
               exibeClientes();
