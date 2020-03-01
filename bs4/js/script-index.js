@@ -141,7 +141,7 @@
                 localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
               } else {
                 //retorna as informações em formato de objeto.
-                var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
+                var clientes = recuperaClientes();
                 clientes.push(cliente);
                 localStorage.setItem("clientesRegistrados", JSON.stringify(clientes));
               }
@@ -325,14 +325,65 @@
             }
 
             function novaSaida(){
-              var horaAtual = new Date().getHours();
-              var selectVeiculo = document.getElementById("veiSaida");
-              var divHoraEntrada = document.getElementById("horaEntrada");
-              var divTempoTotal = document.getElementById("tempoTotal")
-              var tempoTotal;
-              var pos;
-
+              var dataSaida = new Date().getDate();
+              var horaSaida = new Date().getHours();
+              var divSelectVeiculo = document.getElementById("veiSaida");
+              var veiculoSelecionado =   divSelectVeiculo.options[divSelectVeiculo.selectedIndex].value;
+              var horaEntrada = document.getElementById("horaEntrada").value;
+              var tempoTotal = document.getElementById("tempoTotal").value;
+              var totalPago = document.getElementById("totalPagar").value;
+              var selectFormaPgto = document.getElementById("formaPgto");
+              var formaPgto = selectFormaPgto.options[selectFormaPgto.selectedIndex].value;
+              var recebido = document.getElementById("inputRecebido").value;
+              var troco = document.getElementById("valorTroco").value;
+              var entradas = retornaEntradas();
+                
+              //criação do objeto histórico
+              historicoSaida = {
+                dataSaida: dataSaida,
+                horaSaida: horaSaida,
+                veiculo: veiculoSelecionado,
+                horaEntrada: horaEntrada,
+                tempoPatio: tempoTotal,
+                formaPgto: formaPgto,
+                valorRecebido: recebido,
+                valorTroco: troco
+              };
+                
+              //Armazena informações no navegador
+                if (localStorage.getItem("historico") === null) {
+                  var historico = [];
+                  historico.push(historicoSaida);
+                  //transforma em string para poder adicionar como valor no LS.
+                  localStorage.setItem("historico", JSON.stringify(historico));
+                } else {
+                  //retorna as informações em formato de objeto.
+                  var historico = retornaHistorico();
+                  historico.push(historicoSaida);
+                  localStorage.setItem("historico", JSON.stringify(historico));
+                }
+                
+                
+                for(var i=0; i<entradas.length; i++){
+                    if(entradas[i].placa === veiculoSelecionado.split(' ')[0]){
+                        //deleta a entrada com o veículo correspondente
+                        entradas.splice(i,1);
+                        
+                        localStorage.removeItem(entradas);
+                        //reescreve a localStorage
+                        localStorage.setItem("entradas", JSON.stringify(entradas)); 
+                        break;
+                    }
+                }
+                
+                atualizaQtdVagas();
+                exibePatio();
+                alert('Saída incluída no histórico!')
               }
+
+        function retornaHistorico(){
+            return JSON.parse(localStorage.getItem("historico"));
+        }
 
 
             function validaEntrada(nomeCliente){
@@ -364,8 +415,6 @@
               var placa = null;
 
               if(validaEntrada(nomeCliente)){
-
-
                 //retorna a lista de clientes registrados
                 var clientes = recuperaClientes();
 
@@ -420,7 +469,6 @@
 
             function apagarCliente(cpf) {
               var clientes = recuperaClientes();
-              var entradas = retornaEntradas();
                 
               if(estaEstacionado(cpf)){
                   for (var i = 0; i < clientes.length; i++) {
