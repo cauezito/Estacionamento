@@ -195,7 +195,6 @@
                   if(placaEntradas.indexOf(clientes[i].placa) === -1){
                     $('#usu').append('<option value="'+ clientes[i].nome +'">' + clientes[i].nome +
                     " " + clientes[i].sobrenome + '</option>');
-                    alert('aqui') 
                   }
                 } //se ainda não houver entrada
                 else {
@@ -325,8 +324,7 @@
             }
 
             function novaSaida(){
-              var dataSaida = new Date().getDate();
-              var horaSaida = new Date().getHours();
+              var dataSaida = new Date().toLocaleString("pt-BR");
               var divSelectVeiculo = document.getElementById("veiSaida");
               var veiculoSelecionado =   divSelectVeiculo.options[divSelectVeiculo.selectedIndex].value;
               var horaEntrada = document.getElementById("horaEntrada").value;
@@ -337,11 +335,13 @@
               var recebido = document.getElementById("inputRecebido").value;
               var troco = document.getElementById("valorTroco").value;
               var entradas = retornaEntradas();
+                alert('hora entrada: ' + horaEntrada);
+                alert('Forma pgto: ' + formaPgto);
+                alert('Troco: ' + troco);
                 
               //criação do objeto histórico
               historicoSaida = {
                 dataSaida: dataSaida,
-                horaSaida: horaSaida,
                 veiculo: veiculoSelecionado,
                 horaEntrada: horaEntrada,
                 tempoPatio: tempoTotal,
@@ -512,6 +512,21 @@
               }
             }
 
+            function exibeHistorico(){
+              var historico = retornaHistorico();
+              var tabelaHistorico = document.getElementById("tabelaHistorico");
+
+              tabelaHistorico.innerHTML = '';
+              for (var i = 0; i < historico.length; i++) {
+                var dataSaida = historico[i].dataSaida;
+                var veiculo = historico[i].veiculo;
+                var formaPgto = historico[i].formaPgto;
+                var valorRecebido = historico[i].valorRecebido;
+                
+
+                tabelaHistorico.innerHTML += '<tr><td>' + dataSaida + '</td><td>' + veiculo + '</td><td>' + formaPgto + '</td><td>' + valorRecebido + '</td></tr>';
+            }
+
             //exibe os clientes na tela de clientes
             function exibeClientes() {
               var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
@@ -539,4 +554,5 @@
                   '</td><td><button class="btn btn-danger" onclick="apagarCliente(\'' +
                   cpf + "')\">Excluir</button>" + "</td></tr>";
               }
+            }
             }

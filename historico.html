@@ -9,28 +9,21 @@
     <link rel="stylesheet" type="text/css" href="bs4/css/style-index.css" />
     <link href="fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet" />
   </head>
-  <body>
+  <body onload="exibeHistorico();">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12 col-lg-3">
             <table class="table">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Nome do cliente</th>
+                    <th scope="col">Data de saída</th>
                     <th scope="col">Veículo</th>
-                    <th scope="col">Valor pago</th>
-                    <th scope="col">Tempo</th>
-                    <th scope="col">Relatório</th>
+                    <th scope="col">Forma de Pagamento</th>
+                    <th scope="col">Valor recebido</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">João Perez</th>
-                    <td>Moto Kaw NES-7584</td>
-                    <td>R$18,00</td>
-                    <td>1 hora e 18 minutos</td>
-                    <td>download</td>
-                  </tr>
+                <tbody id="tabelaHistorico">
+                 
                 </tbody>
             </table>
         </div>
