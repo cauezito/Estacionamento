@@ -6,15 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>SafeCar</title>
     <link rel="stylesheet" type="text/css" href="bs4/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="bs4/css/style-index.css" />
+    <link rel="stylesheet" type="text/css" href="bs4/css/style-clientes.css" />
   </head>
   <body onload="exibeClientes();">
     <div class="container-fluid">
       <div class="row mt-4">
         <div class="col">
-          <a href="novo_cliente.html">Novo</a>
-          <input type="text" id="exampleFormControlInput1" placeholder="Buscar um cliente">
-          <button type="button" class="btn btn-sm btn-success">OK!</button>
+            <button type="button" class="btn btn-sm btn-light">
+                <a href="novo_cliente.html">Novo</a>
+            </button>
+          <input type="text" id="inputBuscaCliente" placeholder="Buscar um cliente">
+          <button type="button" class="btn btn-success">OK!</button>
           <hr>
         </div>
         
@@ -22,7 +24,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12 col-lg-3">
-            <table class="table">
+            <table class="table table-sm table-striped">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Nome</th>
@@ -36,6 +38,7 @@
                     <th scope="col">Placa veículo</th>
                     <th scope="col">Fabricante veículo</th>
                     <th scope="col">Inadimplente?</th>
+                    <th scope="col">Ações</th>
                   </tr>
                 </thead>
                 <tbody id="tabelaClientes">
