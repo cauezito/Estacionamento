@@ -163,7 +163,7 @@
               listaUsuariosEntrada();
             }
 
-    function atualizaQtdVagas(){
+            function atualizaQtdVagas(){
         var entradas = retornaEntradas();
         var totalVagas = 25;
         var divVagasOcupadas = document.getElementById("vagasOcu");
@@ -381,7 +381,7 @@
                 alert('Saída incluída no histórico!')
               }
 
-        function retornaHistorico(){
+            function retornaHistorico(){
             return JSON.parse(localStorage.getItem("historico"));
         }
 
@@ -525,11 +525,12 @@
                 
 
                 tabelaHistorico.innerHTML += '<tr><td>' + dataSaida + '</td><td>' + veiculo + '</td><td>' + formaPgto + '</td><td>' + valorRecebido + '</td></tr>';
+                }
             }
 
             //exibe os clientes na tela de clientes
             function exibeClientes() {
-              var clientes = JSON.parse(localStorage.getItem("clientesRegistrados"));
+              var clientes = recuperaClientes();
               var tabelaClientes = document.getElementById("tabelaClientes");
               tabelaClientes.innerHTML = "";
 
@@ -555,4 +556,4 @@
                   cpf + "')\">Excluir</button>" + "</td></tr>";
               }
             }
-            }
+    
