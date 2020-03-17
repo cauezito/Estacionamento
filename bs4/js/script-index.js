@@ -3,35 +3,58 @@
             window.addEventListener("load", listaVeiculosSaida);
             window.addEventListener("load", atualizaQtdVagas);
 
+            function capturaResolucao(){
+              var width = 0;
+              if (window.matchMedia("(max-width:480px)").matches){
+                width = 330;
+              } else if (window.matchMedia("(max-width:576px)").matches){
+                width = 410;
+              } else if (window.matchMedia("(max-width:769px)").matches){
+                width = 540;
+              } else if (window.matchMedia("(max-width:992px)").matches){
+                width = 800;
+              } else if (window.matchMedia("(max-width:1200px)").matches){
+                width = 1000;
+              } else {
+                width = 1200;
+              }
+              return width;
+            }
+
             //variável que permite um iframe por vez
             var qtd = document.getElementsByTagName("iframe").length;
             document.querySelector("a.valores").addEventListener("click", function() {
-              var url = "valores.html";
-              var height = 250;
-              exibeConteudo(url, height);
+              var url = "valores.html";           
+              var height = 250; 
+              var width = capturaResolucao();          
+              exibeConteudo(url, height, width);
             });
             document.querySelector("a.clientes").addEventListener("click", function() {
               var url = "clientes.html";
               var height = 300;
-              exibeConteudo(url, height);
+              var width = capturaResolucao();          
+              exibeConteudo(url, height, width);
             });
 
             document.querySelector("a.entrada").addEventListener("click", function() {
               var url = "entrada.html";
               var height = 480;
-              exibeConteudo(url, height);
+              var width = capturaResolucao();          
+              exibeConteudo(url, height, width);
             });
 
             document.querySelector("a.saida").addEventListener("click", function() {
               var url = "saida.html";
               var height = 480;
-              exibeConteudo(url, height);
+              var width = capturaResolucao();          
+              exibeConteudo(url, height, width);
             });
 
             document.querySelector("a.historico").addEventListener("click", function() {
               var url = "historico.html";
               var height = 300;
-              exibeConteudo(url, height);
+              var width = capturaResolucao();          
+              exibeConteudo(url, height, width);
             });
 
             document.querySelector("a.fechar").addEventListener("click", function(){
@@ -55,11 +78,11 @@
             }
 
             //exibe um iframe com o conteúdo selecionado no menu lateral
-            function exibeConteudo(url, height) {
+            function exibeConteudo(url, height, width) {
               //iframe
               var iframe = document.createElement("IFRAME");
               iframe.setAttribute("src", url);
-              iframe.style.width = 650 + "px";
+              iframe.style.width = width + "px";
               iframe.style.height = height + "px";
               iframe.style.backgroundColor = "#E5F2C9";
               var div = document.querySelector("div.obs");

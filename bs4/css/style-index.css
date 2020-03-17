@@ -20,10 +20,10 @@
     color: white;
 }
 .card-body{
-    background-color: #E5F2C9;
+    background-color: #f3f9fb;
 }
 .patio{
-    background-color: #E5F2C9;
+    background-color: #f3f9fb;
     font-weight: bold;
 }
 .login{
@@ -51,14 +51,11 @@ a:hover{
     background-color: rgb(82, 107, 122);
 }
 input{
-    background-color: white;
-    
+    background-color: white;    
 }
 
 #vagasOcu, #vagasRes, #totalVagas{
-        background-color: #E5F2C9;
-    
-
+    background-color: #f2f2f2;
 }
 
 
